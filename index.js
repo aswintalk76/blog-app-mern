@@ -18,6 +18,11 @@ connectDB();
 //rest objecct
 const app = express();
 
+//create a default route
+app.get("/", (req, res) => {
+    res.send(`Server is working on ${port}`);
+});
+
 //middelwares
 app.use(cors());
 app.use(express.json());
@@ -27,10 +32,6 @@ app.use(morgan("dev"));
 app.use("/api/v1/user", userRoutes);
 app.use("/api/v1/blog", blogRoutes);
 
-//create a default route
-app.get("/", (req, res) => {
-    res.send(`Server is working on ${port}`);
-});
 
 //listen
 app.listen(port,()=>{
