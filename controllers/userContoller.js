@@ -42,10 +42,48 @@ exports.registerController = async (req, res) => {
 
 // get all users
 exports.getAllUsers = async (req, res) => {
-    console.log("getAllUsers")
+    // console.log("getAllUsers")
+
 };
 
 //login
 exports.loginController = async (req, res) => {
-    console.log("loginController")
+    // console.log("loginController")
+    try {
+        const { email, password } = req.body;
+        //validation
+        if (!email || !password) {
+          return res.status(401).send({
+            success: false,
+            message: "Please provide email or password",
+          });
+        }
+        const user = await userModel.findOne({ email });
+        if (!user) {
+          return res.status(200).send({
+            success: false,
+            message: "email is not registerd",
+          });
+        }
+        //password
+        const isMatch = await bcrypt.compare(password, user.password);
+        if (!isMatch) {
+          return res.status(401).send({
+            success: false,
+            message: "Invlid username or password",
+          });
+        }
+        return res.status(200).send({
+          success: true,
+          messgae: "login successfully",
+          user,
+        });
+      } catch (error) {
+        console.log(error);
+        return res.status(500).send({
+          success: false,
+          message: "Error In Login Callcback",
+          error,
+        });
+      }
 };
