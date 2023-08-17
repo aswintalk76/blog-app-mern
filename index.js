@@ -1,6 +1,8 @@
 const express = require("express");
 const colors = require("colors");
 const dotenv = require("dotenv");
+const cors = require("cors");
+const morgan = require("morgan");
 const connectDB = require("./config/db");
 
 const port = process.env.port || 5000;
